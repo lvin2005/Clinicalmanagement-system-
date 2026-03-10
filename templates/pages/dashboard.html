@@ -1,46 +1,95 @@
 {% extends 'base.html' %}
 
-{% block title %}Dashboard - Event Portal{% endblock %}
+{% block title %}Dashboard - Clinical Portal{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-12">
-        <h1>Welcome, {{ user.username }}!</h1>
-        <p class="lead">Your personal dashboard</p>
+        <h1>Welcome, {{ user.get_full_name|default:user.username }}!</h1>
+        <p class="lead">Clinical Management Dashboard</p>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="row mt-4">
+    <div class="col-md-3 mb-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Patients</h5>
+                <h2>{{ total_patients }}</h2>
+                <small>Registered patients</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Today's Appointments</h5>
+                <h2>{{ total_appointments_today }}</h2>
+                <small>Scheduled for today</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">Upcoming</h5>
+                <h2>{{ upcoming_appointments|length }}</h2>
+                <small>Future appointments</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h5 class="card-title">Recent Records</h5>
+                <h2>{{ recent_records|length }}</h2>
+                <small>Medical records</small>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="row mt-4">
     <div class="col-md-8">
-        <h2>Upcoming Events</h2>
-        {% if upcoming_events %}
-            <div class="row">
-                {% for event in upcoming_events %}
-                    <div class="col-md-6 mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ event.title }}</h5>
-                                <p class="card-text">{{ event.description|truncatewords:15 }}</p>
-                                <p class="card-text">
-                                    <small class="text-muted">
-                                        <i class="bi bi-calendar"></i> {{ event.event_date|date:"F d, Y H:i" }}
-                                        <br>
-                                        <i class="bi bi-geo-alt"></i> {{ event.location }}
-                                        <br>
-                                        <i class="bi bi-people"></i> {{ event.capacity }} spots available
-                                    </small>
-                                </p>
-                                <a href="{% url 'events:detail' event.id %}" class="btn btn-sm btn-primary">View Details</a>
-                                <a href="{% url 'bookings:create' event.id %}" class="btn btn-sm btn-success">Book Now</a>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
+        <h2>Today's Appointments</h2>
+        {% if today_appointments %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Patient</th>
+                            <th>Type</th>
+                            <th>Doctor</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in today_appointments %}
+                        <tr>
+                            <td>{{ appointment.appointment_date|date:"H:i" }}</td>
+                            <td>{{ appointment.patient.full_name }}</td>
+                            <td>{{ appointment.get_appointment_type_display }}</td>
+                            <td>Dr. {{ appointment.doctor.full_name }}</td>
+                            <td>
+                                <span class="badge bg-{% if appointment.status == 'scheduled' %}primary{% elif appointment.status == 'completed' %}success{% else %}secondary{% endif %}">
+                                    {{ appointment.get_status_display }}
+                                </span>
+                            </td>
+                            <td>
+                                <a href="{% url 'appointments:detail' appointment.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         {% else %}
             <div class="alert alert-info">
-                <h4>No upcoming events</h4>
-                <p>Check back later for new events or <a href="{% url 'events:list' %}">browse all events</a>.</p>
+                <h4>No appointments today</h4>
+                <p>All appointments for today have been completed or none are scheduled.</p>
             </div>
         {% endif %}
     </div>
@@ -51,10 +100,17 @@
                 <h5 class="mb-0">Profile Information</h5>
             </div>
             <div class="card-body">
-                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Name:</strong> {{ user.get_full_name|default:user.username }}</p>
                 <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Role:</strong> 
+                    {% if is_doctor %}
+                        Doctor
+                    {% else %}
+                        Staff Member
+                    {% endif %}
+                </p>
                 <p><strong>Member since:</strong> {{ user.date_joined|date:"F d, Y" }}</p>
-                <a href="#" class="btn btn-sm btn-outline-primary">Edit Profile</a>
+                <a href="{% url 'accounts:profile' %}" class="btn btn-sm btn-outline-primary">View Profile</a>
             </div>
         </div>
         
@@ -64,10 +120,13 @@
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
-                    <a href="{% url 'events:list' %}" class="btn btn-primary">Browse Events</a>
-                    <a href="{% url 'bookings:user_bookings' %}" class="btn btn-outline-primary">My Bookings</a>
-                    <a href="{% url 'blog:list' %}" class="btn btn-outline-primary">Read Blog</a>
-                    <a href="{% url 'contact:contact' %}" class="btn btn-outline-primary">Contact Support</a>
+                    <a href="{% url 'patients:list' %}" class="btn btn-primary">Manage Patients</a>
+                    <a href="{% url 'appointments:create' %}" class="btn btn-success">Schedule Appointment</a>
+                    <a href="{% url 'records:create' %}" class="btn btn-info">Add Medical Record</a>
+                    {% if is_doctor %}
+                        <a href="{% url 'doctors:dashboard' %}" class="btn btn-outline-primary">Doctor Dashboard</a>
+                    {% endif %}
+                    <a href="/admin/" class="btn btn-outline-secondary">Admin Panel</a>
                 </div>
             </div>
         </div>
@@ -75,69 +134,78 @@
 </div>
 
 <div class="row mt-5">
-    <div class="col-12">
-        <h2>Your Recent Bookings</h2>
-        {% if user_bookings %}
+    <div class="col-md-6">
+        <h2>Recent Patients</h2>
+        {% if recent_patients %}
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Event</th>
-                            <th>Date</th>
-                            <th>Tickets</th>
-                            <th>Booking Date</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Phone</th>
+                            <th>Registered</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for booking in user_bookings %}
-                            <tr>
-                                <td>{{ booking.event.title }}</td>
-                                <td>{{ booking.event.event_date|date:"F d, Y" }}</td>
-                                <td>{{ booking.number_of_tickets }}</td>
-                                <td>{{ booking.booking_date|date:"F d, Y" }}</td>
-                                <td>
-                                    <a href="{% url 'events:detail' booking.event.id %}" class="btn btn-sm btn-outline-primary">View</a>
-                                </td>
-                            </tr>
+                        {% for patient in recent_patients %}
+                        <tr>
+                            <td>{{ patient.full_name }}</td>
+                            <td>{{ patient.age }}</td>
+                            <td>{{ patient.phone }}</td>
+                            <td>{{ patient.created_at|date:"M d, Y" }}</td>
+                            <td>
+                                <a href="{% url 'patients:detail' patient.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                            </td>
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         {% else %}
             <div class="alert alert-info">
-                <h4>No bookings yet</h4>
-                <p>Start booking events to see them here. <a href="{% url 'events:list' %}">Browse events</a></p>
+                <h4>No patients registered</h4>
+                <p>Start by registering your first patient.</p>
             </div>
         {% endif %}
     </div>
-</div>
-
-<div class="row mt-5">
-    <div class="col-12">
-        <h2>Recent Blog Posts</h2>
-        <div class="row">
-            {% for post in recent_posts %}
-                <div class="col-md-4 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ post.title }}</h5>
-                            <p class="card-text">{{ post.content|truncatewords:15 }}</p>
-                            <p class="card-text">
-                                <small class="text-muted">
-                                    By {{ post.author }} on {{ post.created_at|date:"F d, Y" }}
-                                </small>
-                            </p>
-                            <a href="{% url 'blog:detail' post.id %}" class="btn btn-sm btn-outline-primary">Read More</a>
-                        </div>
-                    </div>
-                </div>
-            {% empty %}
-                <div class="col-12">
-                    <p>No blog posts available at the moment.</p>
-                </div>
-            {% endfor %}
-        </div>
+    
+    <div class="col-md-6">
+        <h2>Recent Medical Records</h2>
+        {% if recent_records %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for record in recent_records %}
+                        <tr>
+                            <td>{{ record.patient.full_name }}</td>
+                            <td>Dr. {{ record.doctor.full_name }}</td>
+                            <td>{{ record.get_record_type_display }}</td>
+                            <td>{{ record.record_date|date:"M d, Y" }}</td>
+                            <td>
+                                <a href="{% url 'records:detail' record.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <h4>No medical records</h4>
+                <p>No medical records have been created yet.</p>
+            </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

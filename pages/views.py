@@ -24,17 +24,23 @@ def services(request):
 def dashboard(request):
     # Check if user is a doctor
     try:
-        doctor = request.user.doctor
-        is_doctor = True
-        # Doctor-specific data
-        upcoming_appointments = doctor.upcoming_appointments
-        today_appointments = doctor.appointment_set.filter(
+        profile = request.user.userprofile
+        is_doctor = profile.user_type == 'doctor'
+    except:
+        is_doctor = False
+    
+    if is_doctor:
+        # Doctor-specific data - simplified since we don't have doctor relationship yet
+        upcoming_appointments = Appointment.objects.filter(
+            appointment_date__gte=timezone.now(),
+            status='scheduled'
+        ).order_by('appointment_date')[:10]
+        today_appointments = Appointment.objects.filter(
             appointment_date__date=timezone.now().date(),
             status='scheduled'
         ).order_by('appointment_date')
-        recent_records = MedicalRecord.objects.filter(doctor=doctor).order_by('-created_at')[:5]
-    except Doctor.DoesNotExist:
-        is_doctor = False
+        recent_records = MedicalRecord.objects.order_by('-created_at')[:5]
+    else:
         # Staff/admin data
         upcoming_appointments = Appointment.objects.filter(
             appointment_date__gte=timezone.now(),
