@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
     'patients',
     'doctors', 
     'appointments',
@@ -139,4 +140,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Login/Logout URLs
 LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'pages:dashboard'
-LOGOUT_REDIRECT_URL = 'pages:home'
+LOGOUT_REDIRECT_URL = 'accounts:login'

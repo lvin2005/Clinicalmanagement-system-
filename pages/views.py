@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from patients.models import Patient
 from appointments.models import Appointment
@@ -8,26 +8,11 @@ from django.utils import timezone
 from django.db.models import Count
 
 def home(request):
-    # Get statistics for dashboard
-    total_patients = Patient.objects.count()
-    total_doctors = Doctor.objects.count()
-    total_appointments = Appointment.objects.count()
+    if request.user.is_authenticated:
+        return redirect('pages:dashboard')
     
-    # Get recent data
-    recent_patients = Patient.objects.order_by('-created_at')[:5]
-    upcoming_appointments = Appointment.objects.filter(
-        appointment_date__gte=timezone.now(),
-        status='scheduled'
-    ).order_by('appointment_date')[:5]
-    
-    context = {
-        'total_patients': total_patients,
-        'total_doctors': total_doctors,
-        'total_appointments': total_appointments,
-        'recent_patients': recent_patients,
-        'upcoming_appointments': upcoming_appointments,
-    }
-    return render(request, 'pages/home.html', context)
+    # Public homepage - redirect to login
+    return redirect('accounts:login')
 
 def about(request):
     return render(request, 'pages/about.html')
