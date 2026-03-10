@@ -1,12 +1,12 @@
-# Event Portal - Django Event Management Application
+# Clinic Portal - Django Clinic Management Application
 
-A complete, fully functional Django 5 web application for event management with user authentication, MySQL database, and modern responsive UI.
+A complete, fully functional Django 5 web application for clinic management with user authentication, MySQL database, and modern responsive UI.
 
 ## Features
 
 - **User Authentication**: Registration, login, logout with Django's built-in auth system
-- **Event Management**: Create, view, and manage events
-- **Booking System**: Book tickets for events with user dashboard
+- **Clinic management**: Create, view, and manage events
+- **Booking System**: Book appointments for consultation with user dashboard
 - **Blog**: Read blog posts with detailed views
 - **Contact Form**: Contact page with message storage
 - **Admin Panel**: Full admin interface for managing all content
