@@ -8,10 +8,7 @@ from django.utils import timezone
 from django.db.models import Count
 
 def home(request):
-    if request.user.is_authenticated:
-        return redirect('pages:dashboard')
-    
-    # Public homepage - redirect to login
+    # Always redirect to login page for homepage
     return redirect('accounts:login')
 
 def about(request):

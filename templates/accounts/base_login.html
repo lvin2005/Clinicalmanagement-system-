@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Clinical Portal{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+        .login-left {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px 0 0 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .login-right {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0 20px 20px 0;
+            padding: 3rem;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .brand-logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .brand-subtitle {
+            color: #6c757d;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-item {
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-item i {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .login-left, .login-right {
+                border-radius: 20px;
+                margin: 1rem;
+            }
+            
+            .login-right {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="row g-0">
+            <div class="col-md-6">
+                <div class="login-left">
+                    <div class="text-center mb-4">
+                        <div class="brand-logo">
+                            <i class="fas fa-hospital me-2"></i>Clinical Portal
+                        </div>
+                        <p class="brand-subtitle">Comprehensive Healthcare Management System</p>
+                    </div>
+                    
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="login-right">
+                    <h2 class="mb-4">Welcome to Clinical Portal</h2>
+                    <p class="lead mb-4">Your complete solution for healthcare management</p>
+                    
+                    <div class="feature-item">
+                        <i class="fas fa-users"></i>
+                        <span>Manage patient records and medical history</span>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Schedule and track appointments</span>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <i class="fas fa-user-md"></i>
+                        <span>Doctor profiles and specializations</span>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <i class="fas fa-file-medical"></i>
+                        <span>Secure medical records management</span>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>HIPAA-compliant data security</span>
+                    </div>
+                    
+                    <hr class="my-4 border-white">
+                    
+                    <small>
+                        <i class="fas fa-lock me-2"></i>
+                        Your data is protected with enterprise-grade security
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
