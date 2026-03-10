@@ -1,74 +1,149 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Home - Event Portal{% endblock %}
+{% block title %}Home - Clinical Portal{% endblock %}
 
 {% block content %}
-<div class="hero-section bg-primary text-white py-5 mb-5 rounded">
-    <div class="container text-center">
-        <h1 class="display-4">Welcome to Event Portal</h1>
-        <p class="lead">Discover, book, and manage amazing events</p>
-        {% if not user.is_authenticated %}
-            <a href="{% url 'accounts:signup' %}" class="btn btn-light btn-lg">Get Started</a>
-        {% endif %}
+<!-- Hero Section -->
+<section class="hero-section text-center text-white mb-5">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Welcome to Clinical Portal</h1>
+        <p class="lead">Comprehensive Clinical Management System for Modern Healthcare</p>
+        <a href="{% url 'patients:create' %}" class="btn btn-primary btn-lg me-3">Add Patient</a>
+        <a href="{% url 'appointments:create' %}" class="btn btn-outline-light btn-lg">Schedule Appointment</a>
+    </div>
+</section>
+
+<!-- Statistics Cards -->
+<div class="row mb-5">
+    <div class="col-md-3 mb-4">
+        <div class="card dashboard-card text-center">
+            <div class="card-body">
+                <div class="feature-icon mx-auto mb-3">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="card-title">{{ total_patients }}</h3>
+                <p class="card-text">Total Patients</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card dashboard-card text-center">
+            <div class="card-body">
+                <div class="feature-icon mx-auto mb-3">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <h3 class="card-title">{{ total_doctors }}</h3>
+                <p class="card-text">Doctors</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card dashboard-card text-center">
+            <div class="card-body">
+                <div class="feature-icon mx-auto mb-3">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3 class="card-title">{{ total_appointments }}</h3>
+                <p class="card-text">Total Appointments</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 mb-4">
+        <div class="card dashboard-card text-center">
+            <div class="card-body">
+                <div class="feature-icon mx-auto mb-3">
+                    <i class="fas fa-file-medical"></i>
+                </div>
+                <h3 class="card-title">24/7</h3>
+                <p class="card-text">Medical Care</p>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <h5 class="card-title">Discover Events</h5>
-                <p class="card-text">Browse through our collection of exciting events happening near you.</p>
-                <a href="{% url 'events:list' %}" class="btn btn-primary">Browse Events</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <h5 class="card-title">Book Tickets</h5>
-                <p class="card-text">Secure your spot at your favorite events with our easy booking system.</p>
-                <a href="{% url 'events:list' %}" class="btn btn-primary">Book Now</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <h5 class="card-title">Read Blog</h5>
-                <p class="card-text">Stay updated with the latest news and insights from our blog.</p>
-                <a href="{% url 'blog:list' %}" class="btn btn-primary">Read Blog</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row mt-5">
+<!-- Quick Actions -->
+<div class="row mb-5">
     <div class="col-12">
-        <h2 class="text-center mb-4">Upcoming Events</h2>
-        <div class="row">
-            {% for event in upcoming_events %}
-                <div class="col-md-6 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ event.title }}</h5>
-                            <p class="card-text">{{ event.description|truncatewords:20 }}</p>
-                            <p class="card-text">
-                                <small class="text-muted">
-                                    <i class="bi bi-calendar"></i> {{ event.event_date|date:"F d, Y" }}
-                                    <br>
-                                    <i class="bi bi-geo-alt"></i> {{ event.location }}
-                                </small>
-                            </p>
-                            <a href="{% url 'events:detail' event.id %}" class="btn btn-sm btn-outline-primary">View Details</a>
-                        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">Quick Actions</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'patients:create' %}" class="btn btn-primary w-100">
+                            <i class="fas fa-user-plus me-2"></i> Register Patient
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'appointments:create' %}" class="btn btn-success w-100">
+                            <i class="fas fa-calendar-plus me-2"></i> Schedule Appointment
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'records:create' %}" class="btn btn-info w-100">
+                            <i class="fas fa-file-medical me-2"></i> Add Medical Record
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'patients:list' %}" class="btn btn-secondary w-100">
+                            <i class="fas fa-search me-2"></i> View Patients
+                        </a>
                     </div>
                 </div>
-            {% empty %}
-                <div class="col-12 text-center">
-                    <p>No upcoming events at the moment.</p>
-                </div>
-            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Recent Patients</h5>
+                <a href="{% url 'patients:list' %}" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                {% if recent_patients %}
+                    {% for patient in recent_patients %}
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                        <div>
+                            <h6 class="mb-1">{{ patient.full_name }}</h6>
+                            <small class="text-muted">{{ patient.phone }} | {{ patient.age }} years</small>
+                        </div>
+                        <a href="{% url 'patients:detail' patient.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">No patients registered yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Upcoming Appointments</h5>
+                <a href="{% url 'appointments:list' %}" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                {% if upcoming_appointments %}
+                    {% for appointment in upcoming_appointments %}
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                        <div>
+                            <h6 class="mb-1">{{ appointment.patient.full_name }}</h6>
+                            <small class="text-muted">{{ appointment.appointment_date|date:"Y-m-d H:i" }} - Dr. {{ appointment.doctor.full_name }}</small>
+                        </div>
+                        <a href="{% url 'appointments:detail' appointment.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">No upcoming appointments scheduled.</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
