@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Appointment - {{ appointment.patient.full_name }} - Clinical Portal{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Appointment Details</h1>
+    <div>
+        {% if appointment.status == 'scheduled' %}
+            <a href="{% url 'appointments:update' appointment.pk %}" class="btn btn-outline-secondary">Edit</a>
+            <a href="{% url 'appointments:cancel' appointment.pk %}" class="btn btn-outline-danger">Cancel</a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <!-- Appointment Information -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Appointment Information</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <td><strong>Date & Time:</strong></td>
+                        <td>{{ appointment.appointment_date|date:"Y-m-d H:i" }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type:</strong></td>
+                        <td>{{ appointment.get_appointment_type_display }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Status:</strong></td>
+                        <td>
+                            <span class="badge bg-{% if appointment.status == 'scheduled' %}primary{% elif appointment.status == 'completed' %}success{% elif appointment.status == 'cancelled' %}danger{% else %}secondary{% endif %}">
+                                {{ appointment.get_status_display }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Patient:</strong></td>
+                        <td>
+                            <a href="{% url 'patients:detail' appointment.patient.pk %}">
+                                {{ appointment.patient.full_name }}
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Doctor:</strong></td>
+                        <td>
+                            <a href="{% url 'doctors:detail' appointment.doctor.pk %}">
+                                Dr. {{ appointment.doctor.full_name }}
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Medical Information -->
+        {% if appointment.blood_pressure or appointment.heart_rate or appointment.temperature or appointment.weight or appointment.height %}
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="mb-0">Vital Signs</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    {% if appointment.blood_pressure %}
+                    <tr>
+                        <td><strong>Blood Pressure:</strong></td>
+                        <td>{{ appointment.blood_pressure }}</td>
+                    </tr>
+                    {% endif %}
+                    {% if appointment.heart_rate %}
+                    <tr>
+                        <td><strong>Heart Rate:</strong></td>
+                        <td>{{ appointment.heart_rate }} bpm</td>
+                    </tr>
+                    {% endif %}
+                    {% if appointment.temperature %}
+                    <tr>
+                        <td><strong>Temperature:</strong></td>
+                        <td>{{ appointment.temperature }}°F</td>
+                    </tr>
+                    {% endif %}
+                    {% if appointment.weight %}
+                    <tr>
+                        <td><strong>Weight:</strong></td>
+                        <td>{{ appointment.weight }} lbs</td>
+                    </tr>
+                    {% endif %}
+                    {% if appointment.height %}
+                    <tr>
+                        <td><strong>Height:</strong></td>
+                        <td>{{ appointment.height }} ft</td>
+                    </tr>
+                    {% endif %}
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Medical Details -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Medical Details</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <h6>Reason for Visit</h6>
+                    <p>{{ appointment.reason|linebreaks }}</p>
+                </div>
+                
+                {% if appointment.symptoms %}
+                <div class="mb-3">
+                    <h6>Symptoms</h6>
+                    <p>{{ appointment.symptoms|linebreaks }}</p>
+                </div>
+                {% endif %}
+                
+                {% if appointment.prescription %}
+                <div class="mb-3">
+                    <h6>Prescription</h6>
+                    <p>{{ appointment.prescription|linebreaks }}</p>
+                </div>
+                {% endif %}
+                
+                {% if appointment.notes %}
+                <div class="mb-3">
+                    <h6>Additional Notes</h6>
+                    <p>{{ appointment.notes|linebreaks }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Follow-up Information -->
+        {% if appointment.follow_up_date %}
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="mb-0">Follow-up</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Follow-up Date:</strong> {{ appointment.follow_up_date|date:"Y-m-d H:i" }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'patients:detail' appointment.patient.pk %}" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-user me-2"></i> View Patient
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'doctors:detail' appointment.doctor.pk %}" class="btn btn-outline-info w-100">
+                            <i class="fas fa-user-md me-2"></i> View Doctor
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'records:create' %}?patient={{ appointment.patient.pk }}" class="btn btn-outline-success w-100">
+                            <i class="fas fa-file-medical me-2"></i> Add Medical Record
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'appointments:create' %}?patient={{ appointment.patient.pk }}" class="btn btn-outline-secondary w-100">
+                            <i class="fas fa-calendar-plus me-2"></i> Schedule Follow-up
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

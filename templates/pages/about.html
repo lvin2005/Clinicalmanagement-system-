@@ -1,78 +1,120 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}About Us - Event Portal{% endblock %}
+{% block title %}About - Clinical Portal{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-12">
-        <h1>About Event Portal</h1>
-        <p class="lead">Your premier destination for discovering and booking amazing events.</p>
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">About Clinical Portal</h1>
+        </div>
     </div>
-</div>
 
-<div class="row mt-4">
-    <div class="col-md-6">
-        <h2>Our Mission</h2>
-        <p>We strive to connect people with unforgettable experiences by providing a seamless platform for event discovery and booking. Whether you're looking for concerts, workshops, conferences, or social gatherings, Event Portal makes it easy to find and attend events that matter to you.</p>
-        
-        <h2 class="mt-4">What We Offer</h2>
-        <ul>
-            <li>Comprehensive event listings across various categories</li>
-            <li>Easy and secure ticket booking system</li>
-            <li>User-friendly dashboard for managing your bookings</li>
-            <li>Regular blog updates with event tips and insights</li>
-            <li>Responsive customer support</li>
-        </ul>
-    </div>
-    <div class="col-md-6">
-        <h2>Our Story</h2>
-        <p>Founded in 2024, Event Portal was created with a simple vision: to make event discovery and booking accessible to everyone. Our team of passionate event enthusiasts works tirelessly to bring you the best events from your community and beyond.</p>
-        
-        <h2 class="mt-4">Why Choose Us?</h2>
+    <!-- Mission Section -->
+    <section class="mb-5">
         <div class="row">
-            <div class="col-6 mb-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Easy to Use</h5>
-                        <p class="card-text">Simple and intuitive interface</p>
+            <div class="col-md-8 mx-auto text-center">
+                <h2 class="mb-4">Our Mission</h2>
+                <p class="lead">To provide comprehensive, efficient, and secure clinical management solutions that empower healthcare providers to deliver exceptional patient care.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Offer -->
+    <section class="mb-5">
+        <h2 class="text-center mb-4">What We Offer</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card service-card h-100">
+                    <div class="card-body text-center">
+                        <div class="service-icon mx-auto mb-3">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5 class="card-title">Patient Management</h5>
+                        <p class="card-text">Comprehensive patient registration, medical history tracking, and demographic management with secure data storage.</p>
                     </div>
                 </div>
             </div>
-            <div class="col-6 mb-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Secure Booking</h5>
-                        <p class="card-text">Safe and reliable transactions</p>
+            <div class="col-md-4 mb-4">
+                <div class="card service-card h-100">
+                    <div class="card-body text-center">
+                        <div class="service-icon mx-auto mb-3">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <h5 class="card-title">Appointment Scheduling</h5>
+                        <p class="card-text">Streamlined appointment booking, scheduling, and management with automated reminders and status tracking.</p>
                     </div>
                 </div>
             </div>
-            <div class="col-6 mb-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">24/7 Support</h5>
-                        <p class="card-text">Always here to help you</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 mb-3">
-                <div class="card text-center">
-                    <div class="card-body">
-                        <h5 class="card-title">Community</h5>
-                        <p class="card-text">Join thousands of event lovers</p>
+            <div class="col-md-4 mb-4">
+                <div class="card service-card h-100">
+                    <div class="card-body text-center">
+                        <div class="service-icon mx-auto mb-3">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <h5 class="card-title">Medical Records</h5>
+                        <p class="card-text">Secure electronic health records with comprehensive documentation, file attachments, and confidentiality controls.</p>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="row mt-5">
-    <div class="col-12 text-center">
-        <h2>Join Our Community</h2>
-        <p>Be part of a growing community of event enthusiasts. Sign up today and start discovering amazing events!</p>
-        {% if not user.is_authenticated %}
-            <a href="{% url 'accounts:signup' %}" class="btn btn-primary btn-lg">Sign Up Now</a>
-        {% endif %}
-    </div>
+    <!-- Our Story -->
+    <section class="mb-5">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Our Story</h2>
+                <p>Clinical Portal was developed to address the growing need for efficient healthcare management systems. Our platform combines cutting-edge technology with healthcare expertise to deliver solutions that improve patient care and streamline clinical workflows.</p>
+                <p>Since our inception, we have been committed to continuous improvement, incorporating feedback from healthcare professionals to ensure our system meets the evolving needs of modern medical practice.</p>
+            </div>
+            <div class="col-md-6">
+                <h2>Why Choose Clinical Portal?</h2>
+                <ul>
+                    <li><strong>User-Friendly Interface:</strong> Intuitive design for healthcare professionals</li>
+                    <li><strong>Secure & Compliant:</strong> HIPAA-compliant data security measures</li>
+                    <li><strong>Scalable Solution:</strong> Grows with your practice</li>
+                    <li><strong>24/7 Support:</strong> Round-the-clock technical assistance</li>
+                    <li><strong>Regular Updates:</strong> Continuous feature enhancements</li>
+                    <li><strong>Integration Ready:</strong> Compatible with existing systems</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="mb-5">
+        <div class="row text-center">
+            <div class="col-md-3 mb-4">
+                <div class="feature-icon mx-auto mb-3">
+                    <i class="fas fa-hospital"></i>
+                </div>
+                <h3>500+</h3>
+                <p>Healthcare Facilities</p>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="feature-icon mx-auto mb-3">
+                    <i class="fas fa-user-md"></i>
+                </div>
+                <h3>1,000+</h3>
+                <p>Healthcare Providers</p>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="feature-icon mx-auto mb-3">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>50,000+</h3>
+                <p>Patients Managed</p>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="feature-icon mx-auto mb-3">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>24/7</h3>
+                <p>System Uptime</p>
+            </div>
+        </div>
+    </section>
 </div>
 {% endblock %}

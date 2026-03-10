@@ -1,0 +1,28 @@
+Operations to perform:
+  Synchronize unmigrated apps: contact, messages, pages, staticfiles
+  Apply all migrations: admin, appointments, auth, contenttypes, doctors, patients, records, sessions
+Running pre-migrate handlers for application admin
+Running pre-migrate handlers for application auth
+Running pre-migrate handlers for application contenttypes
+Running pre-migrate handlers for application sessions
+Running pre-migrate handlers for application patients
+Running pre-migrate handlers for application doctors
+Running pre-migrate handlers for application appointments
+Running pre-migrate handlers for application pages
+Running pre-migrate handlers for application records
+Running pre-migrate handlers for application contact
+Synchronizing apps without migrations:
+  Creating tables...
+    Running deferred SQL...
+Running migrations:
+  No migrations to apply.
+Running post-migrate handlers for application admin
+Running post-migrate handlers for application auth
+Running post-migrate handlers for application contenttypes
+Running post-migrate handlers for application sessions
+Running post-migrate handlers for application patients
+Running post-migrate handlers for application doctors
+Running post-migrate handlers for application appointments
+Running post-migrate handlers for application pages
+Running post-migrate handlers for application records
+Running post-migrate handlers for application contact

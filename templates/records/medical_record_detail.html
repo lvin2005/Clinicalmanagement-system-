@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ record.title }} - Clinical Portal{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{ record.title }}</h1>
+    <div>
+        <span class="badge bg-info">{{ record.get_record_type_display }}</span>
+        {% if record.is_confidential %}
+            <span class="badge bg-warning">Confidential</span>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <!-- Record Information -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Record Information</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <td><strong>Patient:</strong></td>
+                        <td>
+                            <a href="{% url 'patients:detail' record.patient.pk %}">
+                                {{ record.patient.full_name }}
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Doctor:</strong></td>
+                        <td>
+                            <a href="{% url 'doctors:detail' record.doctor.pk %}">
+                                Dr. {{ record.doctor.full_name }}
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Record Type:</strong></td>
+                        <td>{{ record.get_record_type_display }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Record Date:</strong></td>
+                        <td>{{ record.record_date|date:"Y-m-d H:i" }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Created:</strong></td>
+                        <td>{{ record.created_at|date:"Y-m-d H:i" }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Confidential:</strong></td>
+                        <td>
+                            {% if record.is_confidential %}
+                                <span class="badge bg-warning">Yes</span>
+                            {% else %}
+                                <span class="badge bg-secondary">No</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'patients:detail' record.patient.pk %}" class="btn btn-outline-primary">View Patient Profile</a>
+                    <a href="{% url 'records:patient_records' record.patient.pk %}" class="btn btn-outline-info">Patient Medical History</a>
+                    <a href="{% url 'appointments:create' %}?patient={{ record.patient.pk }}" class="btn btn-outline-success">Schedule Follow-up</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Medical Details -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Medical Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <h6>Description</h6>
+                    <p>{{ record.description|linebreaks }}</p>
+                </div>
+                
+                {% if record.diagnosis %}
+                <div class="mb-3">
+                    <h6>Diagnosis</h6>
+                    <p>{{ record.diagnosis|linebreaks }}</p>
+                </div>
+                {% endif %}
+                
+                {% if record.treatment %}
+                <div class="mb-3">
+                    <h6>Treatment</h6>
+                    <p>{{ record.treatment|linebreaks }}</p>
+                </div>
+                {% endif %}
+                
+                {% if record.prescription %}
+                <div class="mb-3">
+                    <h6>Prescription</h6>
+                    <p>{{ record.prescription|linebreaks }}</p>
+                </div>
+                {% endif %}
+                
+                {% if record.notes %}
+                <div class="mb-3">
+                    <h6>Additional Notes</h6>
+                    <p>{{ record.notes|linebreaks }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Attached Files -->
+{% if files %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Attached Files</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Filename</th>
+                                <th>Type</th>
+                                <th>Size</th>
+                                <th>Uploaded</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for file in files %}
+                            <tr>
+                                <td>{{ file.filename }}</td>
+                                <td>{{ file.file_type }}</td>
+                                <td>{{ file.file_size }}</td>
+                                <td>{{ file.uploaded_at|date:"Y-m-d H:i" }}</td>
+                                <td>
+                                    <a href="{{ file.file.url }}" class="btn btn-sm btn-outline-primary" target="_blank">Download</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

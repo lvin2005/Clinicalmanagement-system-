@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dr. {{ doctor.full_name }} - Clinical Portal{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Dr. {{ doctor.full_name }}</h1>
+    <a href="{% url 'appointments:create' %}?doctor={{ doctor.pk }}" class="btn btn-primary">Book Appointment</a>
+</div>
+
+<div class="row">
+    <!-- Doctor Information -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Professional Information</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <td><strong>Specialization:</strong></td>
+                        <td>{{ doctor.get_specialization_display }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>License Number:</strong></td>
+                        <td>{{ doctor.license_number }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Experience:</strong></td>
+                        <td>{{ doctor.experience_years }} years</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Consultation Fee:</strong></td>
+                        <td>${{ doctor.consultation_fee }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Available Days:</strong></td>
+                        <td>{{ doctor.available_days }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Available Time:</strong></td>
+                        <td>{{ doctor.available_time_start }} - {{ doctor.available_time_end }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="mb-0">Contact Information</h5>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <td><strong>Phone:</strong></td>
+                        <td>{{ doctor.phone }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email:</strong></td>
+                        <td>{{ doctor.user.email }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Office Address:</strong></td>
+                        <td>{{ doctor.office_address }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Information -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">About</h5>
+            </div>
+            <div class="card-body">
+                {% if doctor.bio %}
+                    <h6>Biography</h6>
+                    <p>{{ doctor.bio|linebreaks }}</p>
+                {% endif %}
+                
+                {% if doctor.education %}
+                    <h6>Education</h6>
+                    <p>{{ doctor.education|linebreaks }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'appointments:create' %}?doctor={{ doctor.pk }}" class="btn btn-primary">Book Appointment</a>
+                    <a href="tel:{{ doctor.phone }}" class="btn btn-success">Call Office</a>
+                    <a href="mailto:{{ doctor.user.email }}" class="btn btn-info">Send Email</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upcoming Appointments -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Upcoming Appointments</h5>
+            </div>
+            <div class="card-body">
+                {% if upcoming_appointments %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date & Time</th>
+                                    <th>Patient</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for appointment in upcoming_appointments %}
+                                <tr>
+                                    <td>{{ appointment.appointment_date|date:"Y-m-d H:i" }}</td>
+                                    <td>{{ appointment.patient.full_name }}</td>
+                                    <td>{{ appointment.get_appointment_type_display }}</td>
+                                    <td>
+                                        <span class="badge bg-{% if appointment.status == 'scheduled' %}primary{% elif appointment.status == 'completed' %}success{% else %}secondary{% endif %}">
+                                            {{ appointment.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'appointments:detail' appointment.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">No upcoming appointments scheduled.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

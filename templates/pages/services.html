@@ -1,145 +1,169 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Services - Event Portal{% endblock %}
+{% block title %}Services - Clinical Portal{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-12">
+<div class="container">
+    <div class="text-center mb-5">
         <h1>Our Services</h1>
-        <p class="lead">Comprehensive event management solutions for organizers and attendees.</p>
+        <p class="lead">Comprehensive healthcare management solutions tailored to your needs</p>
     </div>
-</div>
 
-<div class="row mt-4">
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <div class="mb-3">
-                    <i class="bi bi-calendar-event" style="font-size: 3rem; color: #0d6efd;"></i>
+    <!-- Main Services -->
+    <section class="mb-5">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card service-card h-100">
+                    <div class="card-body text-center">
+                        <div class="service-icon mx-auto mb-3">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <h4 class="card-title">Patient Registration</h4>
+                        <p class="card-text">Complete patient onboarding with comprehensive medical history, demographics, and emergency contact information.</p>
+                        <ul class="text-start">
+                            <li>Digital registration forms</li>
+                            <li>Medical history tracking</li>
+                            <li>Allergy and condition management</li>
+                            <li>Emergency contact setup</li>
+                        </ul>
+                    </div>
                 </div>
-                <h5 class="card-title">Event Management</h5>
-                <p class="card-text">Complete event management solutions including planning, promotion, and execution. We help organizers create memorable experiences.</p>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card service-card h-100">
+                    <div class="card-body text-center">
+                        <div class="service-icon mx-auto mb-3">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <h4 class="card-title">Appointment Management</h4>
+                        <p class="card-text">Streamlined scheduling system with automated reminders and comprehensive appointment tracking.</p>
+                        <ul class="text-start">
+                            <li>Online appointment booking</li>
+                            <li>Automated reminders</li>
+                            <li>Waitlist management</li>
+                            <li>Appointment history tracking</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <div class="mb-3">
-                    <i class="bi bi-ticket-perforated" style="font-size: 3rem; color: #0d6efd;"></i>
-                </div>
-                <h5 class="card-title">Ticket Booking</h5>
-                <p class="card-text">Secure and efficient ticket booking system with real-time availability, multiple payment options, and instant confirmation.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <div class="mb-3">
-                    <i class="bi bi-megaphone" style="font-size: 3rem; color: #0d6efd;"></i>
-                </div>
-                <h5 class="card-title">Event Promotion</h5>
-                <p class="card-text">Strategic marketing and promotion services to maximize event visibility and attendance through various channels.</p>
-            </div>
-        </div>
-    </div>
-</div>
+    </section>
 
-<div class="row">
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <div class="mb-3">
-                    <i class="bi bi-people" style="font-size: 3rem; color: #0d6efd;"></i>
+    <!-- Advanced Features -->
+    <section class="mb-5">
+        <h2 class="text-center mb-4">Advanced Features</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card service-card h-100">
+                    <div class="card-body text-center">
+                        <div class="service-icon mx-auto mb-3">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <h5 class="card-title">Electronic Health Records</h5>
+                        <p class="card-text">Secure, comprehensive medical record management with file attachments and confidentiality controls.</p>
+                    </div>
                 </div>
-                <h5 class="card-title">Attendee Management</h5>
-                <p class="card-text">Comprehensive attendee management including registration, check-in, and engagement tools for seamless event experiences.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card service-card h-100">
+                    <div class="card-body text-center">
+                        <div class="service-icon mx-auto mb-3">
+                            <i class="fas fa-pills"></i>
+                        </div>
+                        <h5 class="card-title">Prescription Management</h5>
+                        <p class="card-text">Digital prescription tracking with medication history and interaction alerts.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card service-card h-100">
+                    <div class="card-body text-center">
+                        <div class="service-icon mx-auto mb-3">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h5 class="card-title">Analytics Dashboard</h5>
+                        <p class="card-text">Real-time insights into patient flow, appointment trends, and practice performance.</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <div class="mb-3">
-                    <i class="bi bi-graph-up" style="font-size: 3rem; color: #0d6efd;"></i>
-                </div>
-                <h5 class="card-title">Analytics & Reporting</h5>
-                <p class="card-text">Detailed analytics and reporting to track event performance, attendee behavior, and ROI for continuous improvement.</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <div class="mb-3">
-                    <i class="bi bi-headset" style="font-size: 3rem; color: #0d6efd;"></i>
-                </div>
-                <h5 class="card-title">24/7 Support</h5>
-                <p class="card-text">Round-the-clock customer support for organizers and attendees to ensure smooth event experiences.</p>
-            </div>
-        </div>
-    </div>
-</div>
+    </section>
 
-<div class="row mt-5">
-    <div class="col-12">
-        <h2>Service Packages</h2>
+    <!-- Pricing Plans -->
+    <section class="mb-5">
+        <h2 class="text-center mb-4">Pricing Plans</h2>
         <div class="row">
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <div class="card-header bg-primary text-white text-center">
+                    <div class="card-header text-center bg-light">
                         <h5 class="mb-0">Basic</h5>
                     </div>
                     <div class="card-body text-center">
-                        <h3 class="card-title">$99<span class="text-muted">/event</span></h3>
-                        <ul class="list-unstyled">
-                            <li>✓ Event listing</li>
-                            <li>✓ Basic promotion</li>
-                            <li>✓ Ticket booking</li>
-                            <li>✓ Email support</li>
+                        <h3 class="card-title">$99<span class="text-muted">/month</span></h3>
+                        <p class="card-text">Perfect for small practices</p>
+                        <ul class="list-unstyled mb-4">
+                            <li>Up to 100 patients</li>
+                            <li>Basic appointment scheduling</li>
+                            <li>Medical record storage</li>
+                            <li>Email support</li>
                         </ul>
-                        <a href="{% url 'contact:contact' %}" class="btn btn-outline-primary">Get Started</a>
+                        <button class="btn btn-outline-primary w-100">Choose Plan</button>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <div class="card-header bg-success text-white text-center">
+                    <div class="card-header text-center bg-primary text-white">
                         <h5 class="mb-0">Professional</h5>
+                        <small class="text-white-50">Most Popular</small>
                     </div>
                     <div class="card-body text-center">
-                        <h3 class="card-title">$299<span class="text-muted">/event</span></h3>
-                        <ul class="list-unstyled">
-                            <li>✓ All Basic features</li>
-                            <li>✓ Advanced promotion</li>
-                            <li>✓ Priority support</li>
-                            <li>✓ Analytics dashboard</li>
-                            <li>✓ Custom branding</li>
+                        <h3 class="card-title">$299<span class="text-muted">/month</span></h3>
+                        <p class="card-text">Ideal for growing practices</p>
+                        <ul class="list-unstyled mb-4">
+                            <li>Up to 500 patients</li>
+                            <li>Advanced scheduling features</li>
+                            <li>Comprehensive EHR</li>
+                            <li>Priority support</li>
+                            <li>Analytics dashboard</li>
                         </ul>
-                        <a href="{% url 'contact:contact' %}" class="btn btn-success">Get Started</a>
+                        <button class="btn btn-primary w-100">Choose Plan</button>
                     </div>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="card">
-                    <div class="card-header bg-dark text-white text-center">
+                    <div class="card-header text-center bg-dark text-white">
                         <h5 class="mb-0">Enterprise</h5>
                     </div>
                     <div class="card-body text-center">
                         <h3 class="card-title">Custom</h3>
-                        <ul class="list-unstyled">
-                            <li>✓ All Professional features</li>
-                            <li>✓ Dedicated account manager</li>
-                            <li>✓ Custom integrations</li>
-                            <li>✓ API access</li>
-                            <li>✓ White-label options</li>
+                        <p class="card-text">For large healthcare facilities</p>
+                        <ul class="list-unstyled mb-4">
+                            <li>Unlimited patients</li>
+                            <li>Custom features</li>
+                            <li>API access</li>
+                            <li>Dedicated support</li>
+                            <li>Custom integrations</li>
                         </ul>
-                        <a href="{% url 'contact:contact' %}" class="btn btn-dark">Contact Us</a>
+                        <button class="btn btn-dark w-100">Contact Sales</button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="text-center">
+        <div class="card bg-primary text-white">
+            <div class="card-body py-5">
+                <h2>Ready to Transform Your Practice?</h2>
+                <p class="lead">Join thousands of healthcare providers who trust Clinical Portal</p>
+                <button class="btn btn-light btn-lg">Start Free Trial</button>
+                <button class="btn btn-outline-light btn-lg ms-2">Schedule Demo</button>
+            </div>
+        </div>
+    </section>
 </div>
 {% endblock %}

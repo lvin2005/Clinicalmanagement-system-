@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Doctors - Clinical Portal{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Doctors</h1>
+</div>
+
+<!-- Search and Filter Form -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-6">
+                <input type="text" name="q" class="form-control" placeholder="Search doctors by name..." value="{{ query }}">
+            </div>
+            <div class="col-md-4">
+                <select name="specialization" class="form-select">
+                    <option value="">All Specializations</option>
+                    {% for spec_value, spec_label in specializations %}
+                        <option value="{{ spec_value }}" {% if selected_specialization == spec_value %}selected{% endif %}>
+                            {{ spec_label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-primary w-100">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Doctors List -->
+<div class="row">
+    {% for doctor in doctors %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card doctor-card">
+            <div class="card-body">
+                <h5 class="card-title">Dr. {{ doctor.full_name }}</h5>
+                <p class="card-text">
+                    <strong>Specialization:</strong> {{ doctor.get_specialization_display }}<br>
+                    <strong>Experience:</strong> {{ doctor.experience_years }} years<br>
+                    <strong>Consultation Fee:</strong> ${{ doctor.consultation_fee }}<br>
+                    <strong>Phone:</strong> {{ doctor.phone }}<br>
+                    <strong>Available:</strong> {{ doctor.available_days }}
+                </p>
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'doctors:detail' doctor.pk %}" class="btn btn-primary btn-sm">View Details</a>
+                    <a href="{% url 'appointments:create' %}?doctor={{ doctor.pk }}" class="btn btn-success btn-sm">Book Appointment</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4>No doctors found</h4>
+            <p>No doctors match your search criteria.</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

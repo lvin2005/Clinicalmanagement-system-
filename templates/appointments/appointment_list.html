@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Appointments - Clinical Portal{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Appointments</h1>
+    <a href="{% url 'appointments:create' %}" class="btn btn-primary">Schedule New Appointment</a>
+</div>
+
+<!-- Search and Filter Form -->
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row g-3">
+            <div class="col-md-4">
+                <input type="text" name="q" class="form-control" placeholder="Search by patient or doctor name..." value="{{ query }}">
+            </div>
+            <div class="col-md-3">
+                <select name="status" class="form-select">
+                    <option value="">All Statuses</option>
+                    {% for status_value, status_label in status_choices %}
+                        <option value="{{ status_value }}" {% if status_filter == status_value %}selected{% endif %}>
+                            {{ status_label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="date" class="form-select">
+                    <option value="">All Dates</option>
+                    <option value="today" {% if date_filter == 'today' %}selected{% endif %}>Today</option>
+                    <option value="upcoming" {% if date_filter == 'upcoming' %}selected{% endif %}>Upcoming</option>
+                    <option value="past" {% if date_filter == 'past' %}selected{% endif %}>Past</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-primary w-100">Filter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Appointments List -->
+<div class="card">
+    <div class="card-body">
+        {% if appointments %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                        <tr>
+                            <td>
+                                {{ appointment.appointment_date|date:"Y-m-d H:i" }}
+                                {% if appointment.is_today %}
+                                    <span class="badge bg-warning text-dark ms-2">Today</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'patients:detail' appointment.patient.pk %}">
+                                    {{ appointment.patient.full_name }}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{% url 'doctors:detail' appointment.doctor.pk %}">
+                                    Dr. {{ appointment.doctor.full_name }}
+                                </a>
+                            </td>
+                            <td>{{ appointment.get_appointment_type_display }}</td>
+                            <td>
+                                <span class="badge bg-{% if appointment.status == 'scheduled' %}primary{% elif appointment.status == 'completed' %}success{% elif appointment.status == 'cancelled' %}danger{% else %}secondary{% endif %}">
+                                    {{ appointment.get_status_display }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="{% url 'appointments:detail' appointment.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                                    {% if appointment.status == 'scheduled' %}
+                                        <a href="{% url 'appointments:update' appointment.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                        <a href="{% url 'appointments:cancel' appointment.pk %}" class="btn btn-sm btn-outline-danger">Cancel</a>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <h4>No appointments found</h4>
+                <p class="text-muted">No appointments match your search criteria.</p>
+                <a href="{% url 'appointments:create' %}" class="btn btn-primary">Schedule New Appointment</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
