@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Event Portal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>Welcome, {{ user.username }}!</h1>
+        <p class="lead">Your personal dashboard</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-8">
+        <h2>Upcoming Events</h2>
+        {% if upcoming_events %}
+            <div class="row">
+                {% for event in upcoming_events %}
+                    <div class="col-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ event.title }}</h5>
+                                <p class="card-text">{{ event.description|truncatewords:15 }}</p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <i class="bi bi-calendar"></i> {{ event.event_date|date:"F d, Y H:i" }}
+                                        <br>
+                                        <i class="bi bi-geo-alt"></i> {{ event.location }}
+                                        <br>
+                                        <i class="bi bi-people"></i> {{ event.capacity }} spots available
+                                    </small>
+                                </p>
+                                <a href="{% url 'events:detail' event.id %}" class="btn btn-sm btn-primary">View Details</a>
+                                <a href="{% url 'bookings:create' event.id %}" class="btn btn-sm btn-success">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <h4>No upcoming events</h4>
+                <p>Check back later for new events or <a href="{% url 'events:list' %}">browse all events</a>.</p>
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Profile Information</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Member since:</strong> {{ user.date_joined|date:"F d, Y" }}</p>
+                <a href="#" class="btn btn-sm btn-outline-primary">Edit Profile</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url 'events:list' %}" class="btn btn-primary">Browse Events</a>
+                    <a href="{% url 'bookings:user_bookings' %}" class="btn btn-outline-primary">My Bookings</a>
+                    <a href="{% url 'blog:list' %}" class="btn btn-outline-primary">Read Blog</a>
+                    <a href="{% url 'contact:contact' %}" class="btn btn-outline-primary">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <h2>Your Recent Bookings</h2>
+        {% if user_bookings %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Event</th>
+                            <th>Date</th>
+                            <th>Tickets</th>
+                            <th>Booking Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in user_bookings %}
+                            <tr>
+                                <td>{{ booking.event.title }}</td>
+                                <td>{{ booking.event.event_date|date:"F d, Y" }}</td>
+                                <td>{{ booking.number_of_tickets }}</td>
+                                <td>{{ booking.booking_date|date:"F d, Y" }}</td>
+                                <td>
+                                    <a href="{% url 'events:detail' booking.event.id %}" class="btn btn-sm btn-outline-primary">View</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <h4>No bookings yet</h4>
+                <p>Start booking events to see them here. <a href="{% url 'events:list' %}">Browse events</a></p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <h2>Recent Blog Posts</h2>
+        <div class="row">
+            {% for post in recent_posts %}
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ post.title }}</h5>
+                            <p class="card-text">{{ post.content|truncatewords:15 }}</p>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    By {{ post.author }} on {{ post.created_at|date:"F d, Y" }}
+                                </small>
+                            </p>
+                            <a href="{% url 'blog:detail' post.id %}" class="btn btn-sm btn-outline-primary">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <p>No blog posts available at the moment.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

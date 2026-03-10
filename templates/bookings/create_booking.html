@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Book Event - Event Portal{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3>Book Tickets for {{ event.title }}</h3>
+            </div>
+            <div class="card-body">
+                <div class="event-summary mb-4">
+                    <h5>Event Details</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Date:</strong> {{ event.event_date|date:"F d, Y H:i" }}</p>
+                            <p><strong>Location:</strong> {{ event.location }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Available Spots:</strong> {{ event.capacity }}</p>
+                            <p><strong>Price per Ticket:</strong> Free</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.number_of_tickets.id_for_label }}" class="form-label">Number of Tickets</label>
+                        {{ form.number_of_tickets }}
+                        {% if form.number_of_tickets.errors %}
+                            <div class="text-danger">
+                                {{ form.number_of_tickets.errors }}
+                            </div>
+                        {% endif %}
+                        <small class="form-text text-muted">Select how many tickets you want to book (1-10)</small>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <h6>Booking Summary</h6>
+                        <p><strong>Event:</strong> {{ event.title }}</p>
+                        <p><strong>Date:</strong> {{ event.event_date|date:"F d, Y H:i" }}</p>
+                        <p><strong>Location:</strong> {{ event.location }}</p>
+                        <p><strong>Total Tickets:</strong> <span id="ticket-count">1</span></p>
+                        <p><strong>Total Price:</strong> Free</p>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'events:detail' event.id %}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-success">Confirm Booking</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('{{ form.number_of_tickets.id_for_label }}').addEventListener('change', function() {
+    document.getElementById('ticket-count').textContent = this.value;
+});
+</script>
+{% endblock %}

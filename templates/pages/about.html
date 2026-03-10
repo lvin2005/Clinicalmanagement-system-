@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}About Us - Event Portal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>About Event Portal</h1>
+        <p class="lead">Your premier destination for discovering and booking amazing events.</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h2>Our Mission</h2>
+        <p>We strive to connect people with unforgettable experiences by providing a seamless platform for event discovery and booking. Whether you're looking for concerts, workshops, conferences, or social gatherings, Event Portal makes it easy to find and attend events that matter to you.</p>
+        
+        <h2 class="mt-4">What We Offer</h2>
+        <ul>
+            <li>Comprehensive event listings across various categories</li>
+            <li>Easy and secure ticket booking system</li>
+            <li>User-friendly dashboard for managing your bookings</li>
+            <li>Regular blog updates with event tips and insights</li>
+            <li>Responsive customer support</li>
+        </ul>
+    </div>
+    <div class="col-md-6">
+        <h2>Our Story</h2>
+        <p>Founded in 2024, Event Portal was created with a simple vision: to make event discovery and booking accessible to everyone. Our team of passionate event enthusiasts works tirelessly to bring you the best events from your community and beyond.</p>
+        
+        <h2 class="mt-4">Why Choose Us?</h2>
+        <div class="row">
+            <div class="col-6 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Easy to Use</h5>
+                        <p class="card-text">Simple and intuitive interface</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Secure Booking</h5>
+                        <p class="card-text">Safe and reliable transactions</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">24/7 Support</h5>
+                        <p class="card-text">Always here to help you</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Community</h5>
+                        <p class="card-text">Join thousands of event lovers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12 text-center">
+        <h2>Join Our Community</h2>
+        <p>Be part of a growing community of event enthusiasts. Sign up today and start discovering amazing events!</p>
+        {% if not user.is_authenticated %}
+            <a href="{% url 'accounts:signup' %}" class="btn btn-primary btn-lg">Sign Up Now</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

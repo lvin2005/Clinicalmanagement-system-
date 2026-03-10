@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}Events - Event Portal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>Upcoming Events</h1>
+        <p class="lead">Discover and book amazing events happening near you</p>
+    </div>
+</div>
+
+{% if events %}
+    <div class="row">
+        {% for event in events %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.title }}</h5>
+                        <p class="card-text">{{ event.description|truncatewords:20 }}</p>
+                        <div class="event-details">
+                            <p class="card-text">
+                                <span class="badge bg-primary">
+                                    <i class="bi bi-calendar"></i> {{ event.event_date|date:"F d, Y H:i" }}
+                                </span>
+                            </p>
+                            <p class="card-text">
+                                <span class="badge bg-info">
+                                    <i class="bi bi-geo-alt"></i> {{ event.location }}
+                                </span>
+                            </p>
+                            <p class="card-text">
+                                <span class="badge bg-success">
+                                    <i class="bi bi-people"></i> {{ event.capacity }} spots available
+                                </span>
+                            </p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <a href="{% url 'events:detail' event.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'bookings:create' event.id %}" class="btn btn-success btn-sm">Book Now</a>
+                            {% else %}
+                                <a href="{% url 'accounts:login' %}" class="btn btn-success btn-sm">Login to Book</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <h4>No upcoming events</h4>
+                <p>Check back later for new events or contact us to organize your own event!</p>
+                <a href="{% url 'contact:contact' %}" class="btn btn-primary">Contact Us</a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5>Event Categories</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <div class="d-grid">
+                            <button class="btn btn-outline-primary">Music & Concerts</button>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <div class="d-grid">
+                            <button class="btn btn-outline-primary">Sports & Fitness</button>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <div class="d-grid">
+                            <button class="btn btn-outline-primary">Workshops</button>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <div class="d-grid">
+                            <button class="btn btn-outline-primary">Business</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

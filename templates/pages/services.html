@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block title %}Services - Event Portal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1>Our Services</h1>
+        <p class="lead">Comprehensive event management solutions for organizers and attendees.</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-calendar-event" style="font-size: 3rem; color: #0d6efd;"></i>
+                </div>
+                <h5 class="card-title">Event Management</h5>
+                <p class="card-text">Complete event management solutions including planning, promotion, and execution. We help organizers create memorable experiences.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-ticket-perforated" style="font-size: 3rem; color: #0d6efd;"></i>
+                </div>
+                <h5 class="card-title">Ticket Booking</h5>
+                <p class="card-text">Secure and efficient ticket booking system with real-time availability, multiple payment options, and instant confirmation.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-megaphone" style="font-size: 3rem; color: #0d6efd;"></i>
+                </div>
+                <h5 class="card-title">Event Promotion</h5>
+                <p class="card-text">Strategic marketing and promotion services to maximize event visibility and attendance through various channels.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-people" style="font-size: 3rem; color: #0d6efd;"></i>
+                </div>
+                <h5 class="card-title">Attendee Management</h5>
+                <p class="card-text">Comprehensive attendee management including registration, check-in, and engagement tools for seamless event experiences.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-graph-up" style="font-size: 3rem; color: #0d6efd;"></i>
+                </div>
+                <h5 class="card-title">Analytics & Reporting</h5>
+                <p class="card-text">Detailed analytics and reporting to track event performance, attendee behavior, and ROI for continuous improvement.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <i class="bi bi-headset" style="font-size: 3rem; color: #0d6efd;"></i>
+                </div>
+                <h5 class="card-title">24/7 Support</h5>
+                <p class="card-text">Round-the-clock customer support for organizers and attendees to ensure smooth event experiences.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <h2>Service Packages</h2>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h5 class="mb-0">Basic</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <h3 class="card-title">$99<span class="text-muted">/event</span></h3>
+                        <ul class="list-unstyled">
+                            <li>✓ Event listing</li>
+                            <li>✓ Basic promotion</li>
+                            <li>✓ Ticket booking</li>
+                            <li>✓ Email support</li>
+                        </ul>
+                        <a href="{% url 'contact:contact' %}" class="btn btn-outline-primary">Get Started</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white text-center">
+                        <h5 class="mb-0">Professional</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <h3 class="card-title">$299<span class="text-muted">/event</span></h3>
+                        <ul class="list-unstyled">
+                            <li>✓ All Basic features</li>
+                            <li>✓ Advanced promotion</li>
+                            <li>✓ Priority support</li>
+                            <li>✓ Analytics dashboard</li>
+                            <li>✓ Custom branding</li>
+                        </ul>
+                        <a href="{% url 'contact:contact' %}" class="btn btn-success">Get Started</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-header bg-dark text-white text-center">
+                        <h5 class="mb-0">Enterprise</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <h3 class="card-title">Custom</h3>
+                        <ul class="list-unstyled">
+                            <li>✓ All Professional features</li>
+                            <li>✓ Dedicated account manager</li>
+                            <li>✓ Custom integrations</li>
+                            <li>✓ API access</li>
+                            <li>✓ White-label options</li>
+                        </ul>
+                        <a href="{% url 'contact:contact' %}" class="btn btn-dark">Contact Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
